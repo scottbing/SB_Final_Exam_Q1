@@ -201,16 +201,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
-
-            // tuck them into bundles
-            /*// send word1's data off to generate a Haiku
-            b.putStringArrayList("one_syllable", one_syllable);
-            b.putStringArrayList("two_syllable", two_syllable);
-            b.putStringArrayList("three_syllable", three_syllable);
-            b.putStringArrayList("four_syllable", four_syllable);
-            b.putStringArrayList("five_syllable", five_syllable);
-            b.putStringArrayList("six_syllable", six_syllable);
-*/
         } catch (JSONException e) {
             Log.d("MainActivity", e.toString());
             int i =0;
@@ -222,8 +212,8 @@ public class MainActivity extends AppCompatActivity {
         // which syllable count has words
         Random random = new Random();
         boolean[] hasWords = {false,false,false,false,false,false,false};
-        char[][] fiveSylablePatterns =  {{2,3},{3,2},{1,4},{4,1}};
-        char[][] sevenSylablePatterns =  {{3,4},{4,3},{2,5},{5,2}};
+        /*char[][] fiveSylablePatterns =  {{2,3},{3,2},{1,4},{4,1}};
+        char[][] sevenSylablePatterns =  {{3,4},{4,3},{2,5},{5,2}};*/
         int wordIdx1 = 0, wordIdx2 = 0, wordIdx3 = 0, wordIdx4 = 0, wordIdx5 = 0, wordIdx6 = 0, wordIdx7 = 0;
 
         // check if arrays are populated
@@ -331,22 +321,57 @@ public class MainActivity extends AppCompatActivity {
                 wordIdx7=random.nextInt(seven_syllable.size()-1);
             }
         }
-        int j = 0;
 
+        // Randomly choose Haiku pattern
+        // line 1: 5 syllabe
+        // line 2: 7 syllable
+        // line 3. 5 syllabls
+        String haiku_pattern;            
+        int patternIdx = random.nextInt(5 - 1 +1);
 
-        String haiku_debug = one_syllable.get(wordIdx1)+ " " + two_syllable.get(wordIdx2) + ",\n";
-        haiku_debug = haiku_debug + three_syllable.get(wordIdx3) + " " + four_syllable.get(wordIdx4) + " " + five_syllable.get(wordIdx5)  + ",\n";
-        haiku_debug = haiku_debug + six_syllable.get(wordIdx6) + " " + seven_syllable.get(wordIdx7) + ".";
+        switch(patternIdx) {
+            case 1:
+                haiku_pattern = two_syllable.get(wordIdx2)+ " " + three_syllable.get(wordIdx3) + ",\n";
+                haiku_pattern = haiku_pattern + three_syllable.get(wordIdx3) + " " + four_syllable.get(wordIdx4) + ",\n";
+                haiku_pattern = haiku_pattern + three_syllable.get(wordIdx3) + " " + two_syllable.get(wordIdx2) + ".";
+                haiku.setText(haiku_pattern.toString());
+                break;
+                
+            case 2:
+                haiku_pattern = five_syllable.get(wordIdx5) + ",\n";
+                haiku_pattern = haiku_pattern + three_syllable.get(wordIdx3) + " " + four_syllable.get(wordIdx4) + ",\n";
+                haiku_pattern = haiku_pattern + four_syllable.get(wordIdx4) + " " + one_syllable.get(wordIdx1) + ".";
+                haiku.setText(haiku_pattern.toString());
+                break;
 
-        haiku.setText(haiku_debug.toString());
+            case 3:
+                haiku_pattern = three_syllable.get(wordIdx3)+ " " + two_syllable.get(wordIdx2) + ",\n";
+                haiku_pattern = haiku_pattern + one_syllable.get(wordIdx1) + " " + six_syllable.get(wordIdx6) + ",\n";
+                haiku_pattern = haiku_pattern + two_syllable.get(wordIdx2) + " " + three_syllable.get(wordIdx3) + ".";
+                haiku.setText(haiku_pattern.toString());
+                break;
 
+            case 4:
+                haiku_pattern = four_syllable.get(wordIdx4) + " " + one_syllable.get(wordIdx1) + ",\n";
+                haiku_pattern = haiku_pattern + three_syllable.get(wordIdx3) + " " + two_syllable.get(wordIdx2) + " " + two_syllable.get(wordIdx2) + ",\n";
+                haiku_pattern = haiku_pattern + two_syllable.get(wordIdx2) + " " + three_syllable.get(wordIdx3) + ".";
+                haiku.setText(haiku_pattern.toString());
+                break;
 
+            case 5:
+                haiku_pattern = three_syllable.get(wordIdx3) + " " + two_syllable.get(wordIdx2) + ",\n";
+                haiku_pattern = haiku_pattern + four_syllable.get(wordIdx4) + " " + three_syllable.get(wordIdx3) + ",\n";
+                haiku_pattern = haiku_pattern + one_syllable.get(wordIdx1) + " " + three_syllable.get(wordIdx3) + " " + one_syllable.get(wordIdx1) + ".";
+                haiku.setText(haiku_pattern.toString());
+                break;
 
-        int i = 0;
-
-
-       /* passData.putExtras(b);
-        startActivity(passData);*/
-
+            default:
+                haiku_pattern = two_syllable.get(wordIdx2)+ " " + three_syllable.get(wordIdx3) + ",\n";
+                haiku_pattern = haiku_pattern + three_syllable.get(wordIdx3) + " " + four_syllable.get(wordIdx4) + ",\n";
+                haiku_pattern = haiku_pattern + five_syllable.get(wordIdx5) + " " + two_syllable.get(wordIdx2) + ".";
+                haiku.setText(haiku_pattern.toString());
+                break;
+                
+        }
     }
 }
