@@ -83,12 +83,18 @@ public class MainActivity extends AppCompatActivity {
 
         // get user input fro each of the words
         word01 = word1.getText().toString();
+        if( word1.getText().toString().length() == 0 )
+            word1.setError( "Enter a word." );
         startSendHttpRequestThread(word01);
 
         word02 = word2.getText().toString();
+        if( word2.getText().toString().length() == 0 )
+            word2.setError( "Enter a word." );
         startSendHttpRequestThread(word02);
 
         word03 = word3.getText().toString();
+        if( word3.getText().toString().length() == 0 )
+            word3.setError( "Enter a word." );
         startSendHttpRequestThread(word03);
 
         // use the words to make a Haiku
