@@ -13,6 +13,8 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private String reqUrl = "http://rhymebrain.com/talk?";    // call rhymebrain
     private static final String REQUEST_METHOD_GET = "GET";
     private static final String TAG_HTTP_URL_CONNECTION = "HTTP_URL_CONNECTION";
-    private static final int MAX_RESULTS = 50;
+    private static final int MAX_RESULTS = 100;
     //private Bundle b = new Bundle();
 
     // establish syllable arrays
@@ -121,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
                     String service = "https://rhymebrain.com/talk?";    // call rhymebrain
                     //String parm = "getRhymes&word=" + word;
                     //String queryString = URLEncoder.encode(parm, "UTF-8");
-                    String queryString = "getRhymes&word=" + word + "&maxResults=" + String.valueOf(MAX_RESULTS);
+                    //String queryString = "getRhymes&word=" + word + "&maxResults=" + String.valueOf(MAX_RESULTS);
+                    String queryString = "getRhymes&word=" + word;
                     //try to process url and connect to it
                     url = new  URL( service +  "function=" + queryString);
                     Log.d("which URL: ", String.valueOf(url));
@@ -129,28 +132,18 @@ public class MainActivity extends AppCompatActivity {
                     ur1Connection.setRequestMethod("GET");
 
                     // Set connection timeout and read timeout value.
-                    ur1Connection.setConnectTimeout(70000);
-                    ur1Connection.setReadTimeout(70000);
-
-                    //create an input stream and stream reader from the connection
+                    ur1Connection.setConnectTimeout(700000);
+                    ur1Connection.setReadTimeout(700000);
                     InputStream inputStream = ur1Connection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder b = new StringBuilder();
+                    String input;
 
-                    //get some data from the stream
-                    int data = inputStreamReader.read();
-                    //string for collecting all output
-                    output = "";
-                    //if the stream is not empty
-                    while(data != -1) {
-                        //turn what we read into a char and print it
-                        char current = (char) data;
-                        output += current;
-                        data = inputStreamReader.read();
-
-                        //Log.d("Network", output);
+                    while ((input = br.readLine()) != null){
+                        b.append(input);
                     }
-                    Log.d("Network", output);
-                    parseJSON(output);
+                    Log.d("Network", b.toString());
+                    parseJSON(b.toString());
                     int i =0;
                 }catch (Exception e) {
                     Log.d( "Network", e.toString());
